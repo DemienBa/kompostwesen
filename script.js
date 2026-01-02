@@ -1,5 +1,5 @@
 // HIER DEINE NEUE RENDER-URL EINTRAGEN
-const API_URL = "https://kompostwesen.onrender.com/"; 
+const API_URL = "https://kompostwesen.onrender.com"; 
 
 async function ausgraben() {
     const out = document.getElementById('output');
