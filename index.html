@@ -2,23 +2,83 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Das Kompostwesen</title>
     <style>
-        body { background-color: #1a1a1b; color: #d1d1d1; font-family: 'Courier New', monospace; padding: 40px; display: flex; justify-content: center; }
-        .container { max-width: 800px; width: 100%; background: #262627; padding: 30px; border-radius: 12px; border: 1px solid #3e3e3f; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 { color: #78a378; border-bottom: 1px solid #3e3e3f; padding-bottom: 15px; font-size: 1.4rem; }
-        #output { min-height: 200px; background: #121212; padding: 25px; border-left: 5px solid #78a378; margin: 25px 0; line-height: 1.7; font-size: 1.1rem; white-space: pre-wrap; }
-        .controls { display: flex; gap: 15px; }
-        button { background: #3e3e3f; color: white; border: none; padding: 15px 25px; cursor: pointer; font-family: inherit; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #4e4e4f; transform: translateY(-2px); }
-        .ki-btn { background: #2d412d; color: #a3c9a3; border: 1px solid #78a378; }
-        .ki-btn:hover { background: #3a553a; color: white; }
+        /* Das atmosphärische Dunkel-Design */
+        body { 
+            background-color: #1a1a1b; 
+            color: #d1d1d1; 
+            font-family: 'Courier New', monospace; 
+            display: flex; 
+            justify-content: center; 
+            padding: 50px; 
+            margin: 0;
+        }
+        .reaktor-container { 
+            max-width: 800px; 
+            width: 100%; 
+            background: #262627; 
+            padding: 30px; 
+            border-radius: 12px; 
+            border: 1px solid #3e3e3f; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        h1 { 
+            color: #78a378; 
+            font-size: 1.4rem; 
+            letter-spacing: 2px;
+            border-bottom: 1px solid #3e3e3f; 
+            padding-bottom: 15px; 
+            margin-top: 0;
+            text-transform: uppercase;
+        }
+        #output { 
+            min-height: 250px; 
+            background: #121212; 
+            padding: 25px; 
+            border-left: 5px solid #78a378; 
+            margin: 25px 0; 
+            line-height: 1.7;
+            font-size: 1.1rem;
+            white-space: pre-wrap;
+            transition: all 0.5s ease;
+        }
+        .controls { 
+            display: flex; 
+            gap: 15px; 
+        }
+        button { 
+            background: #3e3e3f; 
+            color: #ffffff; 
+            border: none; 
+            padding: 15px 25px; 
+            cursor: pointer; 
+            font-family: inherit;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+        button:hover { 
+            background: #4e4e4f; 
+            transform: translateY(-2px);
+        }
+        .ki-btn { 
+            background: #2d412d; 
+            color: #a3c9a3; 
+            border: 1px solid #78a378; 
+        }
+        .ki-btn:hover { 
+            background: #3a553a; 
+            color: #ffffff; 
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="reaktor-container">
         <h1>🌱 DIGITALER KOMPOST-REAKTOR</h1>
-        <div id="output">System bereit. Warte auf die Ausgrabung eines Fragments...</div>
+        <div id="output">System bereit. Warte auf Fragmente...</div>
         <div class="controls">
             <button onclick="ausgraben()">TEXT GENERIEREN</button>
             <button class="ki-btn" onclick="fermentieren()">🧠 MIT KI FERMENTIEREN</button>
