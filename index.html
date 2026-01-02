@@ -2,86 +2,46 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Das Kompostwesen</title>
+    <title>Kompostwesen | Reaktor</title>
     <style>
-        /* Das atmosphärische Dunkel-Design */
-        body { 
-            background-color: #1a1a1b; 
-            color: #d1d1d1; 
-            font-family: 'Courier New', monospace; 
-            display: flex; 
-            justify-content: center; 
-            padding: 50px; 
-            margin: 0;
-        }
-        .reaktor-container { 
-            max-width: 800px; 
-            width: 100%; 
-            background: #262627; 
-            padding: 30px; 
-            border-radius: 12px; 
-            border: 1px solid #3e3e3f; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-        }
-        h1 { 
-            color: #78a378; 
-            font-size: 1.4rem; 
-            letter-spacing: 2px;
-            border-bottom: 1px solid #3e3e3f; 
-            padding-bottom: 15px; 
-            margin-top: 0;
-            text-transform: uppercase;
-        }
+        body { background-color: #0c0c0d; color: #78a378; font-family: 'Courier New', monospace; display: flex; justify-content: center; padding: 40px; }
+        .reaktor-box { max-width: 850px; width: 100%; background: #151516; border: 1px solid #2d2d2e; padding: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
+        .status-bar { border-bottom: 1px solid #2d2d2e; margin-bottom: 25px; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 10px; opacity: 0.7; }
+        
+        /* Die geliebte Parameter-Leiste */
+        .meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+        .meta-item { border: 1px solid #2d2d2e; padding: 12px; background: #0c0c0d; border-radius: 2px; }
+        .label { color: #4a4a4a; font-size: 0.65rem; display: block; margin-bottom: 5px; text-transform: uppercase; }
+        .value { font-size: 0.9rem; color: #a3c9a3; }
+
         #output { 
-            min-height: 250px; 
-            background: #121212; 
-            padding: 25px; 
-            border-left: 5px solid #78a378; 
-            margin: 25px 0; 
-            line-height: 1.7;
-            font-size: 1.1rem;
-            white-space: pre-wrap;
-            transition: all 0.5s ease;
+            min-height: 250px; background: #080808; padding: 35px; border-left: 5px solid #5c8a5c;
+            color: #d1d1d1; font-size: 1.25rem; line-height: 1.7; margin-bottom: 30px; white-space: pre-wrap;
         }
-        .controls { 
-            display: flex; 
-            gap: 15px; 
-        }
-        button { 
-            background: #3e3e3f; 
-            color: #ffffff; 
-            border: none; 
-            padding: 15px 25px; 
-            cursor: pointer; 
-            font-family: inherit;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            flex: 1;
-        }
-        button:hover { 
-            background: #4e4e4f; 
-            transform: translateY(-2px);
-        }
-        .ki-btn { 
-            background: #2d412d; 
-            color: #a3c9a3; 
-            border: 1px solid #78a378; 
-        }
-        .ki-btn:hover { 
-            background: #3a553a; 
-            color: #ffffff; 
-        }
+
+        .controls { display: flex; gap: 20px; }
+        button { flex: 1; background: #1f1f20; color: #78a378; border: 1px solid #78a378; padding: 18px; cursor: pointer; font-family: inherit; font-weight: bold; font-size: 1rem; transition: 0.2s; }
+        button:hover { background: #78a378; color: #0c0c0d; }
     </style>
 </head>
 <body>
-    <div class="reaktor-container">
-        <h1>🌱 DIGITALER KOMPOST-REAKTOR</h1>
-        <div id="output">System bereit. Warte auf Fragmente...</div>
+    <div class="reaktor-box">
+        <div class="status-bar">
+            <span>BIO-DIGITALER KOMPOST-REAKTOR V.1</span>
+            <span>SYSTEM-STATUS: ONLINE</span>
+        </div>
+
+        <div class="meta-grid">
+            <div class="meta-item"><span class="label">ID-Tag</span><span id="m_id">---</span></div>
+            <div class="meta-item"><span class="label">Enzym-Gruppe</span><span id="m_enz">---</span></div>
+            <div class="meta-item"><span class="label">Myzel-Zone</span><span id="m_zone">---</span></div>
+            <div class="meta-item"><span class="label">Biotisch</span><span id="m_bio">---</span></div>
+        </div>
+
+        <div id="output">Initialisiere Substrat-Scanner... Bitte "FRAGMENT EXTRAHIEREN" klicken.</div>
+
         <div class="controls">
-            <button onclick="ausgraben()">TEXT GENERIEREN</button>
-            <button class="ki-btn" onclick="fermentieren()">🧠 MIT KI FERMENTIEREN</button>
+            <button onclick="ausgraben()">FRAGMENT EXTRAHIEREN</button>
         </div>
     </div>
     <script src="script.js"></script>
