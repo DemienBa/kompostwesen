@@ -2,36 +2,169 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Kompostwesen | Cockpit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompostwesen | Bio-Digitaler Reaktor</title>
     <style>
-        body { background-color: #0c0c0d; color: #78a378; font-family: 'Courier New', monospace; display: flex; justify-content: center; padding: 40px; margin: 0; }
-        .reaktor-box { max-width: 900px; width: 100%; background: #151516; border: 1px solid #2d2d2e; padding: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
-        .header { border-bottom: 1px solid #2d2d2e; margin-bottom: 25px; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 10px; opacity: 0.6; }
-        .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
-        .meta-item { border: 1px solid #2d2d2e; padding: 15px; background: #0c0c0d; }
-        .label { color: #4a4a4a; font-size: 0.65rem; display: block; margin-bottom: 8px; text-transform: uppercase; }
-        select, input[type="range"] { width: 100%; background: #151516; color: #a3c9a3; border: 1px solid #2d2d2e; font-family: inherit; }
-        #output { min-height: 250px; background: #080808; padding: 35px; border-left: 5px solid #5c8a5c; color: #d1d1d1; font-size: 1.2rem; line-height: 1.7; margin-bottom: 30px; white-space: pre-wrap; }
+        /* ATMOSPHÄRISCHES DESIGN */
+        body { 
+            background-color: #0c0c0d; 
+            color: #78a378; 
+            font-family: 'Courier New', monospace; 
+            display: flex; 
+            justify-content: center; 
+            padding: 40px; 
+            margin: 0;
+        }
+        .reaktor-box { 
+            max-width: 900px; 
+            width: 100%; 
+            background: #151516; 
+            border: 1px solid #2d2d2e; 
+            padding: 30px; 
+            box-shadow: 0 0 60px rgba(0,0,0,0.9); 
+        }
+        .header { 
+            border-bottom: 1px solid #2d2d2e; 
+            margin-bottom: 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 0.75rem; 
+            padding-bottom: 10px; 
+            opacity: 0.6;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        /* DAS INTERAKTIVE INSTRUMENTEN-REGAL */
+        .meta-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .meta-item { 
+            border: 1px solid #2d2d2e; 
+            padding: 15px; 
+            background: #0c0c0d; 
+            border-radius: 2px;
+            transition: border-color 0.3s;
+        }
+        .meta-item:hover {
+            border-color: #5c8a5c;
+        }
+        .label { 
+            color: #4a4a4a; 
+            font-size: 0.65rem; 
+            display: block; 
+            margin-bottom: 10px; 
+            text-transform: uppercase;
+        }
+        
+        /* STYLING FÜR REGLER UND MENÜS */
+        select, input[type="range"] {
+            width: 100%;
+            background: #151516;
+            color: #a3c9a3;
+            border: 1px solid #2d2d2e;
+            font-family: inherit;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* TEXT-AUSGABE (REAKTOR-FENSTER) */
+        #output { 
+            min-height: 280px; 
+            background: #080808; 
+            padding: 35px; 
+            border-left: 5px solid #5c8a5c;
+            color: #d1d1d1; 
+            font-size: 1.25rem; 
+            line-height: 1.8; 
+            margin-bottom: 30px; 
+            white-space: pre-wrap;
+            border-radius: 0 4px 4px 0;
+            overflow-y: auto;
+        }
+
+        /* STEUERUNGS-BUTTONS */
         .btn-group { display: flex; gap: 15px; }
-        button { flex: 1; background: #1f1f20; color: #78a378; border: 1px solid #78a378; padding: 18px; cursor: pointer; font-family: inherit; font-weight: bold; text-transform: uppercase; }
-        button:hover { background: #78a378; color: #0c0c0d; }
+        button { 
+            flex: 1; 
+            background: #1f1f20; 
+            color: #78a378; 
+            border: 1px solid #78a378; 
+            padding: 20px; 
+            cursor: pointer; 
+            font-family: inherit; 
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        button:hover { 
+            background: #78a378; 
+            color: #0c0c0d; 
+        }
+        .ki-btn { 
+            border-color: #5c8a5c; 
+            color: #5c8a5c; 
+            background: #0c0c0d; 
+        }
     </style>
 </head>
 <body>
     <div class="reaktor-box">
-        <div class="header"><span>REAKTOR-STEUERUNG</span><span>STATUS: BEREIT</span></div>
+        <div class="header">
+            <span>Bio-Digitaler Reaktor // Phyto-Steuerung</span>
+            <span id="sensor-status">Status: Bereit</span>
+        </div>
+
         <div class="meta-grid">
-            <div class="meta-item"><span class="label">Quelle</span><select id="p_source"><option value="all">Alle</option><option value="kompost">Kompost-Manifest</option><option value="schlaflosigkeit">Schlaflosigkeit</option></select></div>
-            <div class="meta-item"><span class="label">KI-Sensitivität</span><input type="range" id="p_creativity" min="0.1" max="1.5" step="0.1" value="0.7"></div>
-            <div class="meta-item"><span class="label">Stimmung</span><select id="p_mood"><option value="skeptisch">Skeptisch</option><option value="halluzinogen">Halluzinogen</option><option value="aggressiv">Aggressiv</option></select></div>
-            <div class="meta-item"><span class="label">Länge</span><select id="p_length"><option value="100">Kurz</option><option value="250" selected>Mittel</option><option value="500">Lang</option></select></div>
-            <input type="hidden" id="p_intensity" value="0.7"> </div>
-        <div id="output">System bereit...</div>
+            <div class="meta-item">
+                <span class="label">Substrat-Quelle (Bücher)</span>
+                <select id="p_source">
+                    <option value="all">Alle Fragmente</option>
+                    <option value="kompost">Das Kompost-Manifest</option>
+                    <option value="schlaflosigkeit">Schlaflosigkeit</option>
+                    <option value="myzel">Myzel-Träume</option>
+                </select>
+            </div>
+
+            <div class="meta-item">
+                <span class="label">KI-Sensitivität (Freiheit)</span>
+                <input type="range" id="p_creativity" min="0.1" max="1.5" step="0.1" value="0.7">
+            </div>
+
+            <div class="meta-item">
+                <span class="label">Fermentations-Stimmung</span>
+                <select id="p_mood">
+                    <option value="skeptisch">Skeptisch / Botanisch</option>
+                    <option value="melancholisch">Mela / Welk</option>
+                    <option value="halluzinogen">Halluzinogen / Rausch</option>
+                    <option value="aggressiv">Aggr / Zersetzend</option>
+                </select>
+            </div>
+
+            <div class="meta-item">
+                <span class="label">Zersetzungs-Grad (Länge)</span>
+                <select id="p_length">
+                    <option value="100">Kurzes Fragment</option>
+                    <option value="250" selected>Standard Extrakt</option>
+                    <option value="500">Wucherndes Geflecht</option>
+                </select>
+            </div>
+            
+            <input type="hidden" id="p_intensity" value="0.7">
+        </div>
+
+        <div id="output">System im Leerlauf. Bitte wählen Sie ein Substrat und starten Sie die Extraktion...</div>
+
         <div class="btn-group">
             <button onclick="ausgraben()">Extraktion starten</button>
-            <button onclick="fermentieren()" style="border-color:#5c8a5c; color:#5c8a5c;">KI-Fermentierung</button>
+            <button class="ki-btn" onclick="fermentieren()">KI-Fermentierung</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
