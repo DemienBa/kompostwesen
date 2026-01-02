@@ -1,4 +1,4 @@
-const API_URL = "DEINE_RENDER_URL_HIER"; // WICHTIG: Setze hier deine URL ein!
+const API_URL = "https://kompostwesen.onrender.com"; // WICHTIG: Setze hier deine URL ein!
 
 async function ausgraben() {
     const out = document.getElementById('output');
