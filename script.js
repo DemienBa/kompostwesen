@@ -1,42 +1,31 @@
-const API_URL = "https://kompostwesen.onrender.com"; //
+const API_URL = "DEINE_RENDER_URL_HIER"; // WICHTIG: Setze hier deine URL ein!
 
 async function ausgraben() {
     const out = document.getElementById('output');
     const source = document.getElementById('p_source').value;
-    
-    out.innerText = "Extrahiere Daten aus " + source + "...";
+    out.innerText = "Extrahiere Substrat aus " + source + "...";
     
     try {
-        // Wir senden die Buch-Quelle an das Backend mit!
         const res = await fetch(`${API_URL}/generate?source=${source}`);
         const data = await res.json();
-        
         if (data.error) throw new Error(data.error);
-        
-        const f = data[0];
-        // Hier befüllen wir die (passiven) Meta-Tags zur Info
-        // Falls du IDs für diese Anzeigen hast:
-        if(document.getElementById('m_id')) document.getElementById('m_id').innerText = f.bio_id;
-        
-        out.innerText = f.content;
+        out.innerText = data[0].content;
     } catch (e) { 
-        out.innerText = "FEHLER: Substrat in Quelle '" + source + "' nicht gefunden."; 
+        out.innerText = "FEHLER: " + e.message; 
     }
 }
 
 async function fermentieren() {
     const out = document.getElementById('output');
-    
-    // Alle komplexen Parameter einsammeln
     const payload = {
         content: out.innerText,
         mood: document.getElementById('p_mood').value,
         intensity: document.getElementById('p_intensity').value,
-        creativity: document.getElementById('p_creativity').value, // Neue Sensitivität
-        source: document.getElementById('p_source').value
+        creativity: document.getElementById('p_creativity').value,
+        length: document.getElementById('p_length').value
     };
 
-    out.innerText = "Biotische Zersetzung läuft...";
+    out.innerText = "Fermentierung läuft nach eingestellten Parametern...";
     
     try {
         const res = await fetch(`${API_URL}/ferment`, {
@@ -46,5 +35,7 @@ async function fermentieren() {
         });
         const data = await res.json();
         out.innerText = data.fermented;
-    } catch (e) { out.innerText = "Myzel-Kollaps beim Datentransfer."; }
+    } catch (e) { 
+        out.innerText = "Verbindung zum Myzel unterbrochen."; 
+    }
 }
