@@ -1,49 +1,34 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Kompostwesen | Reaktor</title>
-    <style>
-        body { background-color: #0c0c0d; color: #78a378; font-family: 'Courier New', monospace; display: flex; justify-content: center; padding: 40px; }
-        .reaktor-box { max-width: 850px; width: 100%; background: #151516; border: 1px solid #2d2d2e; padding: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
-        .status-bar { border-bottom: 1px solid #2d2d2e; margin-bottom: 25px; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 10px; opacity: 0.7; }
-        
-        /* Die geliebte Parameter-Leiste */
-        .meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-        .meta-item { border: 1px solid #2d2d2e; padding: 12px; background: #0c0c0d; border-radius: 2px; }
-        .label { color: #4a4a4a; font-size: 0.65rem; display: block; margin-bottom: 5px; text-transform: uppercase; }
-        .value { font-size: 0.9rem; color: #a3c9a3; }
-
-        #output { 
-            min-height: 250px; background: #080808; padding: 35px; border-left: 5px solid #5c8a5c;
-            color: #d1d1d1; font-size: 1.25rem; line-height: 1.7; margin-bottom: 30px; white-space: pre-wrap;
-        }
-
-        .controls { display: flex; gap: 20px; }
-        button { flex: 1; background: #1f1f20; color: #78a378; border: 1px solid #78a378; padding: 18px; cursor: pointer; font-family: inherit; font-weight: bold; font-size: 1rem; transition: 0.2s; }
-        button:hover { background: #78a378; color: #0c0c0d; }
-    </style>
-</head>
-<body>
-    <div class="reaktor-box">
-        <div class="status-bar">
-            <span>BIO-DIGITALER KOMPOST-REAKTOR V.1</span>
-            <span>SYSTEM-STATUS: ONLINE</span>
-        </div>
-
-        <div class="meta-grid">
-            <div class="meta-item"><span class="label">ID-Tag</span><span id="m_id">---</span></div>
-            <div class="meta-item"><span class="label">Enzym-Gruppe</span><span id="m_enz">---</span></div>
-            <div class="meta-item"><span class="label">Myzel-Zone</span><span id="m_zone">---</span></div>
-            <div class="meta-item"><span class="label">Biotisch</span><span id="m_bio">---</span></div>
-        </div>
-
-        <div id="output">Initialisiere Substrat-Scanner... Bitte "FRAGMENT EXTRAHIEREN" klicken.</div>
-
-        <div class="controls">
-            <button onclick="ausgraben()">FRAGMENT EXTRAHIEREN</button>
-        </div>
+<div class="meta-grid">
+    <div class="meta-item active">
+        <span class="label">Fermentations-Stimmung</span>
+        <select id="p_mood" class="value" style="background:none; color:#a3c9a3; border:none; font-family:inherit;">
+            <option value="skeptisch">Skeptisch / Botanisch</option>
+            <option value="melancholisch">Melancholisch / Welk</option>
+            <option value="aggressiv">Aggressiv / Zersetzend</option>
+            <option value="halluzinogen">Halluzinogen / Myzel-Rausch</option>
+        </select>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    
+    <div class="meta-item active">
+        <span class="label">Myzel-Dichte (Intensität)</span>
+        <input type="range" id="p_intensity" min="0.1" max="1.0" step="0.1" value="0.7" style="width:100%;">
+    </div>
+
+    <div class="meta-item active">
+        <span class="label">Zersetzungs-Grad (Länge)</span>
+        <select id="p_length" class="value" style="background:none; color:#a3c9a3; border:none; font-family:inherit;">
+            <option value="50">Kurzes Fragment</option>
+            <option value="150" selected>Standard Extrakt</option>
+            <option value="300">Wucherndes Geflecht</option>
+        </select>
+    </div>
+
+    <div class="meta-item active">
+        <span class="label">Enzym-Fokus</span>
+        <select id="p_enzyme" class="value" style="background:none; color:#a3c9a3; border:none; font-family:inherit;">
+            <option value="Phytochemie">Phytochemie</option>
+            <option value="Mykologie">Mykologie</option>
+            <option value="Rauschen">Digitales Rauschen</option>
+        </select>
+    </div>
+</div>
