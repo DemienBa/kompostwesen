@@ -7,16 +7,23 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/generate', methods=['GET'])
-def generate():
-    try:
-        # Lädt die komplette Liste deiner Fragmente
-        with open('fragments_processed.json', 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        # Wählt ein zufälliges Objekt aus und gibt ALLES zurück (ID, Enzyme, etc.)
-        return jsonify([random.choice(data)])
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+@app.route('/ferment', methods=['POST'])
+def ferment():
+    data = request.json
+    text = data.get("content", "")
+    mood = data.get("mood", "skeptisch")
+    enzyme = data.get("enzyme", "Phytochemie")
+    length = int(data.get("length", 150))
+    intensity = float(data.get("intensity", 0.7))
+
+    # Dynamischer Prompt basierend auf deinen Reglern
+    prompt = f"Du bist ein bio-digitales System. Fermentiere diesen Text. Stimmung: {mood}. Fokus: {enzyme}. Intensität: {intensity}. Text: {text}"
+
+    payload = {
+        "inputs": prompt,
+        "parameters": {"max_new_tokens": length, "temperature": intensity, "wait_for_model": True}
+    }
+    # ... Rest wie gehabt (Requests an Hugging Face)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
