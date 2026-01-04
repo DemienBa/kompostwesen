@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Das Kompostwesen</title>
+    <link rel="stylesheet" href="css/layers.css">
+</head>
+<body>
+    <!-- LAYER 0: STARTSEITE - KOMPOST VON WEITEM -->
+    <div id="layer0" class="layer active">
+        <div class="distant-view">
+            <div class="compost-distant">
+                <img src="images/kompost.svg" alt="Komposthaufen" class="compost-small">
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 1: KOMPOST-ZOOM - BUCH ERSCHEINT -->
+    <div id="layer1" class="layer">
+        <div class="compost-container">
+            <img src="images/kompost.svg" alt="Komposthaufen" class="compost-image">
+            
+            <!-- Buch-Icon auf dem Haufen -->
+            <div class="book-icon" id="book-icon">
+                <img src="images/buchcover.svg" alt="Buch" class="book-cover">
+                <div class="book-glow"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 2: BUCH LESEN -->
+    <div id="layer1" class="layer">
+        <!-- Kompost-Hintergrund (clickbar für Layer 2) -->
+        <div class="compost-background" id="compost-bg">
+            <img src="images/kompost.svg" alt="Kompost">
+        </div>
+        
+        <!-- Buch-Fenster -->
+        <div class="book-window">
+            <!-- Header -->
+            <div class="book-header">
+                <h1 id="book-title">Die fröhliche Abschaffung von Ostdeutschland</h1>
+                <p class="book-subtitle">Gesammelte Werke</p>
+            </div>
+            
+            <!-- Inhaltsverzeichnis -->
+            <div class="table-of-contents" id="toc">
+                <h2>Inhaltsverzeichnis</h2>
+                <div id="toc-list">
+                    <!-- Wird dynamisch gefüllt -->
+                </div>
+            </div>
+            
+            <!-- Lese-Ansicht -->
+            <div class="reading-view hidden" id="reading-view">
+                <div class="chapter-header">
+                    <button class="nav-btn" id="prev-chapter">← Vorheriges</button>
+                    <h2 id="chapter-title"></h2>
+                    <button class="nav-btn" id="next-chapter">Nächstes →</button>
+                </div>
+                
+                <div class="chapter-content" id="chapter-content">
+                    <!-- Kapitel-Text hier -->
+                </div>
+                
+                <div class="chapter-footer">
+                    <button class="btn-secondary" id="back-to-toc">← Zurück zum Inhaltsverzeichnis</button>
+                    <div class="chapter-meta" id="chapter-meta"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 2: PARAMETER -->
+    <div id="layer2" class="layer">
+        <!-- Kompost-Hintergrund (verblasst, noch tiefer clickbar) -->
+        <div class="compost-background-deep" id="compost-bg-deep">
+            <img src="images/kompost.svg" alt="Kompost" style="opacity: 0.15;">
+        </div>
+        
+        <div class="layer2-content">
+            <h1 class="layer-title">🧬 PARAMETER-EBENE</h1>
+            <p class="layer-subtitle">Die Zersetzung beginnt...</p>
+            
+            <div class="param-grid">
+                <div class="param-box">
+                    <h3>🌡️ Temperatur</h3>
+                    <input type="range" min="0" max="100" value="45" class="param-slider">
+                    <span class="param-value">45°C</span>
+                </div>
+                
+                <div class="param-box">
+                    <h3>💧 Feuchtigkeit</h3>
+                    <input type="range" min="0" max="100" value="60" class="param-slider">
+                    <span class="param-value">60%</span>
+                </div>
+                
+                <div class="param-box">
+                    <h3>🧪 pH-Wert</h3>
+                    <input type="range" min="40" max="90" value="70" class="param-slider">
+                    <span class="param-value">7.0</span>
+                </div>
+                
+                <div class="param-box">
+                    <h3>💨 Belüftung</h3>
+                    <select class="param-select">
+                        <option>Aerob</option>
+                        <option>Anaerob</option>
+                        <option>Gemischt</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn-kompost" id="btn-kompost">
+                    🌱 KOMPOSTIEREN
+                </button>
+                <button class="btn-deeper" id="btn-deeper">
+                    ⬇️ TIEFER GEHEN
+                </button>
+            </div>
+            
+            <div class="layer-hint">
+                Click auf dunklen Hintergrund um noch tiefer zu gehen...
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 3: TRANSFORMATION (Later) -->
+    <div id="layer3" class="layer">
+        <div class="layer-content">
+            <h1>Layer 3: Transformation</h1>
+            <p>Coming soon...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/layers.js"></script>
+    <script src="js/book.js"></script>
+</body>
+</html>
