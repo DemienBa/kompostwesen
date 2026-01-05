@@ -95,11 +95,11 @@ function openChapter(chapterId) {
     document.getElementById('chapter-title').textContent = 
         `${chapter.number}. ${chapter.title}`;
     
-    // Formatiere Content
+    // Formatiere Content - mit Umbrüchen!
     const content = chapter.content
         .split('\n\n')
         .filter(p => p.trim())
-        .map(p => `<p>${p.trim()}</p>`)
+        .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
         .join('');
     
     document.getElementById('chapter-content').innerHTML = content;

@@ -106,19 +106,8 @@ const HumusManager = {
         txtContent += '═══════════════════════════════════════════════\n';
         txtContent += 'ENDE DES HUMUS\n';
         txtContent += '═══════════════════════════════════════════════\n';
+        return txtContent;
         
-        // Download erstellen
-        const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `kompost-humus-${Date.now()}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        console.log('📥 Humus exportiert als TXT');
     },
     
     // Statistik

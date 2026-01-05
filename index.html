@@ -167,14 +167,8 @@
                 <div class="param-control">
                     <label>
                         📏 Text-Länge
-                        <span class="param-value" id="length-value">500 Wörter</span>
                     </label>
-                    <input type="range" id="text-length" min="100" max="2000" value="500" step="100">
-                    <div class="param-hint">
-                        <span>100-500</span>
-                        <span>500-1000</span>
-                        <span>1000-2000</span>
-                    </div>
+                    <input type="range" id="text-length" min="1" max="2000" value="500" step="1">
                 </div>
                 
                 <!-- C:N-Verhältnis (Fragmentierung) -->
@@ -218,68 +212,50 @@
     <div id="layer3" class="layer">
         <div class="compost-background-darkest compost-clickable" id="compost-bg-3" data-next-layer="4">
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.05; filter: blur(3px);">
+            <div class="glitch-overlay"></div>
         </div>
         
-        <div class="transformation-container">
-            <!-- Input-Auswahl -->
-            <div class="ki-input-select">
-                <label>
-                    <input type="radio" name="ki-input" value="new" checked> Neuer Text
-                </label>
-                <label>
-                    <input type="radio" name="ki-input" value="humus"> Aus Humus
-                </label>
-                <select id="humus-select" class="hidden" style="margin-left: 10px;">
-                    <option>Wähle Humus-Eintrag...</option>
-                </select>
+        <div class="ki-container">
+            <!-- INPUT BOX (verschwindet nach Transformation) -->
+            <div id="ki-input-box" class="ki-box floating-blue">
+                <h3>📥 BIO-KOMPOST INPUT</h3>
+                <textarea id="ki-input-text" readonly placeholder="Text wird automatisch aus Layer 2 übertragen..."></textarea>
+                <p class="readonly-hint">⚠️ Text kann nur durch Bio-Kompostierung erzeugt werden</p>
+                
+                <div class="ki-params">
+                    <div class="param-row">
+                        <label>🤖 Modus:</label>
+                        <select id="ki-mode">
+                            <option value="compress">🗜️ Verdichten (50%)</option>
+                            <option value="expand">📈 Erweitern (150%)</option>
+                            <option value="alienate">🔀 Verfremden</option>
+                            <option value="dream">🌀 Halluzinieren</option>
+                        </select>
+                    </div>
+                    
+                    <div class="param-row">
+                        <label>🌀 Chaos: <span id="chaos-val">50%</span></label>
+                        <input type="range" id="chaos-level" min="0" max="100" value="50">
+                    </div>
+                    
+                    <button class="btn-ferment" id="btn-ki-transform">
+                        ⚡ FERMENTIEREN
+                    </button>
+                </div>
             </div>
             
-            <!-- Großes Textfeld -->
-            <div class="ki-text-area">
-                <textarea id="ki-input-text" placeholder="Text hier eingeben oder aus Humus wählen..."></textarea>
-            </div>
-            
-            <!-- KI-Parameter -->
-            <div class="ki-params">
-                <h3>🤖 KI-Fermentierung</h3>
+            <!-- OUTPUT BOX (erscheint nach Transformation) -->
+            <div id="ki-output-box" class="ki-box floating-blue-strong hidden">
+                <h3>🧬 FERMENTIERT</h3>
+                <div id="ki-output-text" class="output-text"></div>
                 
-                <div class="param-control">
-                    <label>🌀 Chaos-Grad</label>
-                    <input type="range" id="chaos-level" min="0" max="100" value="50">
-                    <span id="chaos-val">50%</span>
+                <div class="ki-actions">
+                    <button class="btn-humus-blue hidden" id="btn-ki-humus">
+                        →💙 HUMUS SPEICHERN
+                    </button>
+                    <span id="ki-humus-status"></span>
                 </div>
-                
-                <div class="param-control">
-                    <label>🤖 KI-Modus</label>
-                    <select id="ki-mode">
-                        <option value="compress">Verdichten</option>
-                        <option value="expand">Erweitern</option>
-                        <option value="alienate">Verfremden</option>
-                        <option value="dream">Halluzinieren</option>
-                    </select>
-                </div>
-                
-                <div class="param-control">
-                    <label>🔥 Fragmentierung</label>
-                    <input type="range" id="fragment-level" min="0" max="100" value="30">
-                    <span id="fragment-val">30%</span>
-                </div>
-                
-                <button class="btn-transform" id="btn-ki-transform">
-                    ⚡ TRANSFORMIEREN
-                </button>
-                
-                <button class="btn-humus" id="btn-ki-to-humus" style="margin-top: 10px;">
-                    →💙 HUMUS SPEICHERN
-                </button>
-            </div>
-            
-            <!-- Output -->
-            <div class="ki-output-area">
-                <h3>🧬 Transformiert</h3>
-                <div id="ki-output" class="text-display">
-                    <p class="hint">Klicke TRANSFORMIEREN...</p>
-                </div>
+                <p class="click-hint">💡 Click auf diese Box → Layer 4 (Humus)</p>
             </div>
         </div>
     </div>
@@ -290,23 +266,14 @@
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.02; filter: blur(5px);">
         </div>
         
-        <div class="humus-view">
-            <h1 style="color: #2ecc71; text-align: center; margin-top: 5vh; font-size: 3em;">
-                🌑 HUMUS
-            </h1>
-            <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 1.2em;">
-                <span id="humus-total-count">0</span> Schichten · Live-Mutation aktiv
-            </p>
+        <div class="humus-fullscreen">
+            <!-- Canvas für Humus-Visualisierung (Vollbild) -->
+            <canvas id="humus-canvas"></canvas>
             
-            <!-- Canvas für Humus-Visualisierung -->
-            <canvas id="humus-canvas" width="1200" height="800"></canvas>
-            
-            <!-- Export -->
-            <div style="text-align: center; margin-top: 30px;">
-                <button class="btn-export" id="btn-export-humus">
-                    📥 HUMUS.TXT EXPORTIEREN
-                </button>
-            </div>
+            <!-- Export-Button schwebend -->
+            <button class="btn-export-float" id="btn-export-humus">
+                📥 EXPORTIEREN
+            </button>
         </div>
     </div>
 

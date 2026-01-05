@@ -209,6 +209,7 @@ function generateBioCompost() {
     }
     
     currentGeneratedText = generatedText;
+    window.currentBioText = generatedText; // Für Transfer zu Layer 3
     
     const output = document.getElementById('generated-text');
     output.innerHTML = `<p>${generatedText}</p>`;

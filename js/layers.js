@@ -157,12 +157,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Click auf generierte Text-Box → Layer 3
+    const generatedText = document.getElementById('generated-text');
+    if (generatedText) {
+        generatedText.addEventListener('click', () => {
+            if (currentLayer !== 2) return;
+            console.log('✨ Click auf generierte Text-Box → Layer 3');
+            
+            // Transfer Text zu Layer 3
+            const kiInput = document.getElementById('ki-input-text');
+            if (kiInput && window.currentBioText) {
+                kiInput.value = window.currentBioText;
+            }
+            
+            // Reset Layer 3 UI (zeige Input, verstecke Output)
+            const inputBox = document.getElementById('ki-input-box');
+            const outputBox = document.getElementById('ki-output-box');
+            if (inputBox) {
+                inputBox.classList.remove('hidden', 'fade-out');
+            }
+            if (outputBox) {
+                outputBox.classList.add('hidden');
+            }
+            
+            switchLayer(3);
+        });
+    }
+    
     // ===== LAYER 3 → LAYER 4 =====
     const compostBg3 = document.getElementById('compost-bg-3');
     if (compostBg3) {
         compostBg3.addEventListener('click', () => {
             if (currentLayer !== 3) return; // Nur wenn Layer 3 aktiv!
             console.log('Click auf Rand (Layer 3) → Layer 4');
+            switchLayer(4);
+        });
+    }
+    
+    // Click auf KI-Output-Box → Layer 4
+    const kiOutputBox = document.getElementById('ki-output-box');
+    if (kiOutputBox) {
+        kiOutputBox.addEventListener('click', () => {
+            if (currentLayer !== 3) return;
+            console.log('✨ Click auf KI-Output-Box → Layer 4');
+            switchLayer(4);
+        });
+    }
+    
+    // Click auf KI-Output-Box → Layer 4
+    const kiOutputClickable = document.getElementById('ki-output-clickable');
+    if (kiOutputClickable) {
+        kiOutputClickable.addEventListener('click', () => {
+            if (currentLayer !== 3) return;
+            console.log('✨ Click auf KI-Output-Box → Layer 4');
             switchLayer(4);
         });
     }
@@ -173,10 +220,11 @@ function loadOriginalToLayer2(text) {
     const originalDiv = document.getElementById('original-text');
     if (!originalDiv) return;
     
+    // Erst doppelte Umbrüche zu Absätzen, dann einzelne zu <br>
     const formatted = text
         .split('\n\n')
         .filter(p => p.trim())
-        .map(p => `<p>${p.trim()}</p>`)
+        .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
         .join('');
     
     originalDiv.innerHTML = formatted;
