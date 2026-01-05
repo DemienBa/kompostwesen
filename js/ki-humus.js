@@ -18,12 +18,8 @@ function typeWriter(text, element, speed = 30, callback) {
     
     function type() {
         if (i < text.length) {
-            // Gelegentlicher Glitch
-            if (Math.random() > 0.98) {
-                element.innerHTML += '<span class="glitch-char">' + text.charAt(i) + '</span>';
-            } else {
-                element.innerHTML += text.charAt(i);
-            }
+            // Kein Glitch mehr - stabiler Text
+            element.innerHTML += text.charAt(i);
             i++;
             setTimeout(type, speed);
         } else if (callback) {
@@ -132,6 +128,11 @@ Viele Wiederholungen. Echos. Echos. Wiederholungen.`;
         currentKIOutput = data.choices[0].message.content;
         
         console.log('✅ KI-Transformation erfolgreich!');
+        
+        // Automatisch zum Humus hinzufügen
+        if (typeof window.addToHumus === 'function') {
+            window.addToHumus(currentKIOutput, 'ki');
+        }
         
         // Output mit Typewriter-Effekt (normale Lesegeschwindigkeit ~30ms)
         outputText.innerHTML = '';

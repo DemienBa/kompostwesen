@@ -211,6 +211,11 @@ function generateBioCompost() {
     currentGeneratedText = generatedText;
     window.currentBioText = generatedText; // Für Transfer zu Layer 3
     
+    // Automatisch zum Humus hinzufügen
+    if (typeof window.addToHumus === 'function') {
+        window.addToHumus(generatedText, 'bio');
+    }
+    
     const output = document.getElementById('generated-text');
     output.innerHTML = `<p>${generatedText}</p>`;
     output.innerHTML += `<div style="margin-top: 20px; padding: 10px; background: rgba(46,204,113,0.1); border-radius: 5px; font-size: 0.9em;">
