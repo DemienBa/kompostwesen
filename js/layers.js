@@ -220,8 +220,11 @@ function loadOriginalToLayer2(text) {
     const originalDiv = document.getElementById('original-text');
     if (!originalDiv) return;
     
-    // Erst doppelte Umbrüche zu Absätzen, dann einzelne zu <br>
+    // Intelligente Umbrüche: \n nach Satzende → neuer Absatz
     const formatted = text
+        // Erst: \n nach Satzende wird zu \n\n (neuer Absatz)
+        .replace(/([.!?»"])\n(?=[A-ZÄÖÜ„])/g, '$1\n\n')
+        // Dann: Doppelte Umbrüche zu Absätzen
         .split('\n\n')
         .filter(p => p.trim())
         .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)

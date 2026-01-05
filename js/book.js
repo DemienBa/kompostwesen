@@ -95,8 +95,13 @@ function openChapter(chapterId) {
     document.getElementById('chapter-title').textContent = 
         `${chapter.number}. ${chapter.title}`;
     
-    // Formatiere Content - mit Umbrüchen!
+    // Formatiere Content - intelligente Umbrüche!
+    // Wenn \n nach Satzende (. ! ? ") → neuer Absatz
+    // Wenn \n mitten im Satz → <br>
     const content = chapter.content
+        // Erst: \n nach Satzende wird zu \n\n (neuer Absatz)
+        .replace(/([.!?»"])\n(?=[A-ZÄÖÜ„])/g, '$1\n\n')
+        // Dann: Doppelte Umbrüche zu Absätzen
         .split('\n\n')
         .filter(p => p.trim())
         .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
