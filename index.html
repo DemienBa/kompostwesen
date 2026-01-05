@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Das Kompostwesen</title>
     <link rel="stylesheet" href="css/layers.css">
+    <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
     <!-- LAYER 0: KOMPOST A + SCHWARZE KUGEL -->
@@ -30,6 +31,9 @@
         <div class="compost-background" id="compost-bg-1">
             <img src="images/kompost_b.jpg" alt="Kompost">
         </div>
+        
+        <!-- Navigation (nur weiter, kein zurück) -->
+        <button class="btn-nav btn-forward" onclick="switchLayer(2)">→</button>
         
         <!-- Buch-Fenster -->
         <div class="book-window">
@@ -67,6 +71,10 @@
         <div class="compost-background-darker compost-clickable" id="compost-bg-2" data-next-layer="3">
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.15; filter: blur(1px);">
         </div>
+        
+        <!-- Navigation -->
+        <button class="btn-nav btn-back" onclick="switchLayer(1)">←</button>
+        <button class="btn-nav btn-forward" onclick="switchLayer(3)">→</button>
         
         <div class="split-container">
             <!-- Links: Original-Textkörper (wählbar) -->
@@ -215,6 +223,10 @@
             <div class="glitch-overlay"></div>
         </div>
         
+        <!-- Navigation -->
+        <button class="btn-nav btn-back" onclick="switchLayer(2)">←</button>
+        <button class="btn-nav btn-forward" onclick="switchLayer(4)">→</button>
+        
         <div class="ki-container">
             <!-- INPUT BOX (verschwindet nach Transformation) -->
             <div id="ki-input-box" class="ki-box floating-blue">
@@ -266,6 +278,9 @@
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.02; filter: blur(5px);">
         </div>
         
+        <!-- Navigation (nur zurück, kein weiter) -->
+        <button class="btn-nav btn-back" onclick="switchLayer(3)">←</button>
+        
         <div class="humus-fullscreen">
             <!-- Canvas für Humus-Visualisierung (Vollbild) -->
             <canvas id="humus-canvas"></canvas>
@@ -279,9 +294,12 @@
 
     <!-- JavaScript -->
     <script src="js/humus.js"></script>
+    <script src="js/humus-v2.js"></script>
     <script src="js/layers.js"></script>
     <script src="js/book.js"></script>
     <script src="js/generator.js"></script>
     <script src="js/ki-humus.js"></script>
+    <script src="js/swipe.js"></script>
+    <script src="js/bandcamp.js"></script>
 </body>
 </html>
