@@ -267,7 +267,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const orb = document.querySelector('.black-orb');
                     if (orb && !orb.contains(e.target)) {
                         e.stopPropagation();
-                        BandcampPlayer.show();
+                        
+                        // Wenn Bandcamp schon offen → zeige YouTube
+                        if (BandcampPlayer.isVisible && !KompostTV.isVisible) {
+                            KompostTV.show();
+                        } else if (!BandcampPlayer.isVisible) {
+                            BandcampPlayer.show();
+                        }
                     }
                 }
             });
@@ -278,8 +284,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Verstecke Player wenn man zu Layer 1+ geht
     window.addEventListener('layerchange', (e) => {
-        if (e.detail.layer >= 1 && BandcampPlayer.isVisible) {
-            BandcampPlayer.hide();
+        if (e.detail.layer >= 1) {
+            if (BandcampPlayer.isVisible) BandcampPlayer.hide();
+            if (KompostTV.isVisible) KompostTV.hide();
         }
         // Zeige KI-Player in Layer 3
         if (e.detail.layer === 3) {
@@ -432,3 +439,117 @@ kiBandcampStyles.textContent = `
     }
 `;
 document.head.appendChild(kiBandcampStyles);
+
+/* ============================================
+   KOMPOST-TV - YouTube Player
+   Erscheint wenn Bandcamp schon offen ist
+   ============================================ */
+
+const KompostTV = {
+    playlistId: 'PLZC-JvCYVd4VbZ-GrTEXJma-RZAPPnApU',
+    isVisible: false,
+    
+    createPlayer() {
+        if (document.getElementById('kompost-tv-container')) return;
+        
+        const container = document.createElement('div');
+        container.id = 'kompost-tv-container';
+        container.className = 'kompost-tv-container';
+        container.innerHTML = `
+            <div class="kompost-tv-header">
+                <span>📺 Kompost-TV</span>
+                <button id="kompost-tv-close" class="bandcamp-close">✕</button>
+            </div>
+            <div id="kompost-tv-player">
+                <iframe 
+                    width="100%" 
+                    height="200" 
+                    src="https://www.youtube.com/embed/videoseries?list=${this.playlistId}&autoplay=0" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        `;
+        
+        document.body.appendChild(container);
+        
+        document.getElementById('kompost-tv-close').addEventListener('click', () => {
+            this.hide();
+        });
+        
+        this.isVisible = true;
+    },
+    
+    show() {
+        if (!document.getElementById('kompost-tv-container')) {
+            this.createPlayer();
+        }
+        const container = document.getElementById('kompost-tv-container');
+        container.classList.add('visible');
+        this.isVisible = true;
+        console.log('📺 Kompost-TV geöffnet');
+    },
+    
+    hide() {
+        const container = document.getElementById('kompost-tv-container');
+        if (container) {
+            container.classList.remove('visible');
+        }
+        this.isVisible = false;
+    }
+};
+
+// CSS für Kompost-TV
+const kompostTVStyles = document.createElement('style');
+kompostTVStyles.textContent = `
+    .kompost-tv-container {
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        background: linear-gradient(160deg, rgba(40, 20, 20, 0.98), rgba(30, 15, 15, 0.95));
+        border: 2px solid #e74c3c;
+        border-radius: 15px;
+        padding: 15px;
+        z-index: 2000;
+        width: 320px;
+        max-width: 90vw;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(231, 76, 60, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+    }
+    
+    .kompost-tv-container.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .kompost-tv-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        color: #e74c3c;
+        font-weight: bold;
+    }
+    
+    #kompost-tv-player {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    #kompost-tv-player iframe {
+        display: block;
+    }
+    
+    @media (max-width: 768px) {
+        .kompost-tv-container {
+            bottom: 250px;
+            right: 10px;
+            left: 10px;
+            width: auto;
+        }
+    }
+`;
+document.head.appendChild(kompostTVStyles);
