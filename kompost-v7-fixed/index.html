@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Das Kompostwesen</title>
+    <link rel="stylesheet" href="css/layers.css">
+</head>
+<body>
+    <!-- LAYER 0: KOMPOST A + SCHWARZE KUGEL -->
+    <div id="layer0" class="layer active">
+        <div class="compost-start" id="compost-start">
+            <img src="images/kompost_a.jpg" alt="Komposthaufen" class="compost-photo">
+            
+            <!-- Schwarze Kugel (erscheint nach erstem Click) -->
+            <div class="black-orb hidden" id="black-orb">
+                <div class="orb-inner"></div>
+            </div>
+            
+            <!-- Buchcover (erscheint nach Kugel-Click) -->
+            <div class="book-reveal hidden" id="book-reveal">
+                <img src="images/buchcover_real.jpg" alt="Buchcover" class="book-cover-reveal">
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 1: BUCH LESEN (Inhaltsverzeichnis + Kapitel) -->
+    <div id="layer1" class="layer">
+        <!-- Kompost B Hintergrund -->
+        <div class="compost-background" id="compost-bg-1">
+            <img src="images/kompost_b.jpg" alt="Kompost">
+        </div>
+        
+        <!-- Buch-Fenster -->
+        <div class="book-window">
+            <div class="book-header">
+                <h1 id="book-title">Die fröhliche Abschaffung von Ostdeutschland</h1>
+                <p class="book-subtitle">Gesammelte Werke</p>
+            </div>
+            
+            <!-- Inhaltsverzeichnis -->
+            <div class="table-of-contents" id="toc">
+                <h2>Inhaltsverzeichnis</h2>
+                <div id="toc-list"></div>
+            </div>
+            
+            <!-- Lese-Ansicht -->
+            <div class="reading-view hidden" id="reading-view">
+                <div class="chapter-header">
+                    <button class="nav-btn" id="prev-chapter">← Vorheriges</button>
+                    <h2 id="chapter-title"></h2>
+                    <button class="nav-btn" id="next-chapter">Nächstes →</button>
+                </div>
+                
+                <div class="chapter-content" id="chapter-content"></div>
+                
+                <div class="chapter-footer">
+                    <button class="btn-secondary" id="back-to-toc">← Zurück zum Inhaltsverzeichnis</button>
+                    <div class="chapter-meta" id="chapter-meta"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 2: BIOLOGISCHE KOMPOSTIERUNG -->
+    <div id="layer2" class="layer">
+        <div class="compost-background-darker compost-clickable" id="compost-bg-2" data-next-layer="3">
+            <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.15; filter: blur(1px);">
+        </div>
+        
+        <div class="split-container">
+            <!-- Links: Original-Textkörper (wählbar) -->
+            <div class="split-left">
+                <h3>📖 Textkörper</h3>
+                <select id="corpus-select" class="corpus-dropdown">
+                    <option value="full">Ganzer Textkörper (84 Kapitel)</option>
+                    <option value="part1">Nur Teil I: Schlaflosigkeitsrevolver</option>
+                    <option value="part2">Nur Teil II: Blumen & Löcher</option>
+                    <option value="part3">Nur Teil III: Die Abschaffung von Erfurt</option>
+                </select>
+                <div class="text-display" id="original-text">
+                    <p class="hint">Wähle Textkörper oben...</p>
+                </div>
+            </div>
+            
+            <!-- Mitte: Biologische Parameter -->
+            <div class="split-middle">
+                <h3>🔬 Bio-Parameter</h3>
+                
+                <!-- Temperatur -->
+                <div class="param-control">
+                    <label>
+                        🌡️ Temperatur
+                        <span class="param-value" id="temp-value">45°C</span>
+                    </label>
+                    <input type="range" id="temperature" min="0" max="100" value="45" step="1">
+                    <div class="param-hint">
+                        <span class="cold">0-25°C Kalt</span>
+                        <span class="warm">25-45°C Mesophil</span>
+                        <span class="hot">45-70°C Thermophil</span>
+                        <span class="extreme">70-100°C Extrem</span>
+                    </div>
+                </div>
+                
+                <!-- Feuchtigkeit -->
+                <div class="param-control">
+                    <label>
+                        💧 Feuchtigkeit
+                        <span class="param-value" id="moisture-value">50%</span>
+                    </label>
+                    <input type="range" id="moisture" min="0" max="80" value="50" step="5">
+                    <div class="param-hint">
+                        <span>0-40% Trocken</span>
+                        <span>40-60% Optimal</span>
+                        <span>60-80% Nass</span>
+                    </div>
+                </div>
+                
+                <!-- pH-Wert -->
+                <div class="param-control">
+                    <label>
+                        🧪 pH-Wert
+                        <span class="param-value" id="ph-value">7.0</span>
+                    </label>
+                    <input type="range" id="ph" min="4" max="10" value="7" step="0.5">
+                    <div class="param-hint">
+                        <span>4-6 Sauer</span>
+                        <span>6-8 Neutral</span>
+                        <span>8-10 Basisch</span>
+                    </div>
+                </div>
+                
+                <!-- Belüftung -->
+                <div class="param-control">
+                    <label>🌬️ Belüftung</label>
+                    <select id="aeration">
+                        <option value="aerob">Aerob (lesbar)</option>
+                        <option value="anaerob">Anaerob (surreal)</option>
+                    </select>
+                </div>
+                
+                <!-- Enzym -->
+                <div class="param-control">
+                    <label>🧬 Enzym-Essenz</label>
+                    <select id="enzyme-select">
+                        <option value="">Alle</option>
+                        <option value="#Dividual">#Dividual</option>
+                        <option value="#Lysis">#Lysis</option>
+                        <option value="#Myzel">#Myzel</option>
+                        <option value="#Noise">#Noise</option>
+                        <option value="#Resonanz">#Resonanz</option>
+                    </select>
+                </div>
+                
+                <!-- Zone -->
+                <div class="param-control">
+                    <label>🌍 Zonen-Tiefe</label>
+                    <select id="zone-select">
+                        <option value="">Alle Zonen</option>
+                        <option value="I">Zone I (Biographisch)</option>
+                        <option value="II">Zone II (Mittel)</option>
+                        <option value="III">Zone III (Maximal zersetzt)</option>
+                    </select>
+                </div>
+                
+                <!-- Text-Länge -->
+                <div class="param-control">
+                    <label>
+                        📏 Text-Länge
+                    </label>
+                    <input type="range" id="text-length" min="1" max="2000" value="500" step="1">
+                </div>
+                
+                <!-- C:N-Verhältnis (Fragmentierung) -->
+                <div class="param-control">
+                    <label>
+                        🔄 C:N-Verhältnis
+                        <span class="param-value" id="cn-value">30:1</span>
+                    </label>
+                    <input type="range" id="cn-ratio" min="10" max="50" value="30" step="5">
+                    <div class="param-hint">
+                        <span>10 N-reich (zusammenhängend)</span>
+                        <span>30 Optimal</span>
+                        <span>50 C-reich (fragmentiert)</span>
+                    </div>
+                </div>
+                
+                <button class="btn-generate" id="btn-generate">
+                    🌱 KOMPOSTIEREN
+                </button>
+                
+                <button class="btn-humus" id="btn-to-humus" style="margin-top: 10px;">
+                    →💚 HUMUS SPEICHERN
+                </button>
+                
+                <div class="humus-status" id="humus-status">
+                    Humus: <span id="humus-count">0</span> / 20
+                </div>
+            </div>
+            
+            <!-- Rechts: Generierter Output -->
+            <div class="split-right">
+                <h3>🔬 Generiert</h3>
+                <div class="text-display" id="generated-text">
+                    <p class="hint">Klicke GENERIEREN um zu beginnen...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 3: KI-FERMENTIERUNG -->
+    <div id="layer3" class="layer">
+        <div class="compost-background-darkest compost-clickable" id="compost-bg-3" data-next-layer="4">
+            <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.05; filter: blur(3px);">
+            <div class="glitch-overlay"></div>
+        </div>
+        
+        <div class="ki-container">
+            <!-- INPUT BOX (verschwindet nach Transformation) -->
+            <div id="ki-input-box" class="ki-box floating-blue">
+                <h3>📥 BIO-KOMPOST INPUT</h3>
+                <textarea id="ki-input-text" readonly placeholder="Text wird automatisch aus Layer 2 übertragen..."></textarea>
+                <p class="readonly-hint">⚠️ Text kann nur durch Bio-Kompostierung erzeugt werden</p>
+                
+                <div class="ki-params">
+                    <div class="param-row">
+                        <label>🤖 Modus:</label>
+                        <select id="ki-mode">
+                            <option value="compress">🗜️ Verdichten (50%)</option>
+                            <option value="expand">📈 Erweitern (150%)</option>
+                            <option value="alienate">🔀 Verfremden</option>
+                            <option value="dream">🌀 Halluzinieren</option>
+                        </select>
+                    </div>
+                    
+                    <div class="param-row">
+                        <label>🌀 Chaos: <span id="chaos-val">50%</span></label>
+                        <input type="range" id="chaos-level" min="0" max="100" value="50">
+                    </div>
+                    
+                    <button class="btn-ferment" id="btn-ki-transform">
+                        ⚡ FERMENTIEREN
+                    </button>
+                </div>
+            </div>
+            
+            <!-- OUTPUT BOX (erscheint nach Transformation) -->
+            <div id="ki-output-box" class="ki-box floating-blue-strong hidden">
+                <h3>🧬 FERMENTIERT</h3>
+                <div id="ki-output-text" class="output-text"></div>
+                
+                <div class="ki-actions">
+                    <button class="btn-humus-blue hidden" id="btn-ki-humus">
+                        →💙 HUMUS SPEICHERN
+                    </button>
+                    <span id="ki-humus-status"></span>
+                </div>
+                <p class="click-hint">💡 Click auf diese Box → Layer 4 (Humus)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER 4: HUMUS-CHAOS -->
+    <div id="layer4" class="layer">
+        <div class="compost-background-black">
+            <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.02; filter: blur(5px);">
+        </div>
+        
+        <div class="humus-fullscreen">
+            <!-- Canvas für Humus-Visualisierung (Vollbild) -->
+            <canvas id="humus-canvas"></canvas>
+            
+            <!-- Export-Button schwebend -->
+            <button class="btn-export-float" id="btn-export-humus">
+                📥 EXPORTIEREN
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/humus.js"></script>
+    <script src="js/layers.js"></script>
+    <script src="js/book.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/ki-humus.js"></script>
+</body>
+</html>
