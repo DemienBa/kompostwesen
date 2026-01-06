@@ -86,7 +86,7 @@ const BandcampPlayer = {
         container.className = 'bandcamp-container';
         container.innerHTML = `
             <div class="bandcamp-header">
-                <span>🎵 Musik von Demien Bartók</span>
+                <span>📻 Kompost-Radio</span>
                 <button id="bandcamp-close" class="bandcamp-close">✕</button>
             </div>
             <select id="album-select">

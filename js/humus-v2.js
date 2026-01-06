@@ -596,12 +596,28 @@ humusStyles.textContent = `
         .humus-params {
             position: fixed;
             top: auto;
-            bottom: 70px;
+            bottom: 10px;
             right: 10px;
-            left: 10px;
+            left: auto;
             transform: none;
-            width: auto;
-            max-height: 40vh;
+            width: 200px;
+            max-height: 35vh;
+            padding: 10px;
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+        
+        .humus-params h3 {
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        
+        .humus-param {
+            margin-bottom: 8px;
+        }
+        
+        .humus-param label {
+            font-size: 0.8em;
         }
     }
 `;
