@@ -157,32 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Click auf generierte Text-Box → Layer 3
-    const generatedText = document.getElementById('generated-text');
-    if (generatedText) {
-        generatedText.addEventListener('click', () => {
-            if (currentLayer !== 2) return;
-            console.log('✨ Click auf generierte Text-Box → Layer 3');
-            
-            // Transfer Text zu Layer 3
-            const kiInput = document.getElementById('ki-input-text');
-            if (kiInput && window.currentBioText) {
-                kiInput.value = window.currentBioText;
-            }
-            
-            // Reset Layer 3 UI (zeige Input, verstecke Output)
-            const inputBox = document.getElementById('ki-input-box');
-            const outputBox = document.getElementById('ki-output-box');
-            if (inputBox) {
-                inputBox.classList.remove('hidden', 'fade-out');
-            }
-            if (outputBox) {
-                outputBox.classList.add('hidden');
-            }
-            
-            switchLayer(3);
-        });
-    }
+    // ENTFERNT: Click auf generierte Text-Box
+    // Wird jetzt in generator-v2.js gehandelt (Text wandert erst zum Sammler)
     
     // ===== LAYER 3 → LAYER 4 =====
     const compostBg3 = document.getElementById('compost-bg-3');

@@ -32,8 +32,10 @@
             <img src="images/kompost_b.jpg" alt="Kompost">
         </div>
         
-        <!-- Navigation (nur weiter, kein zurück) -->
-        <button class="btn-nav btn-forward" onclick="switchLayer(2)">→</button>
+        <!-- Navigation: Bakterium (nur Mobile sichtbar) -->
+        <button class="btn-nav-bakterium" onclick="switchLayer(2)" title="Zur Bio-Kompostierung">
+            🦠
+        </button>
         
         <!-- Buch-Fenster -->
         <div class="book-window">
@@ -72,145 +74,99 @@
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.15; filter: blur(1px);">
         </div>
         
-        <!-- Navigation -->
-        <button class="btn-nav btn-back" onclick="switchLayer(1)">←</button>
-        <button class="btn-nav btn-forward" onclick="switchLayer(3)">→</button>
-        
         <div class="split-container">
-            <!-- Links: Original-Textkörper (wählbar) -->
+            <!-- Links: Sammler (gesammelte Texte) -->
             <div class="split-left">
-                <h3>📖 Textkörper</h3>
-                <select id="corpus-select" class="corpus-dropdown">
-                    <option value="full">Ganzer Textkörper (84 Kapitel)</option>
-                    <option value="part1">Nur Teil I: Schlaflosigkeitsrevolver</option>
-                    <option value="part2">Nur Teil II: Blumen & Löcher</option>
-                    <option value="part3">Nur Teil III: Die Abschaffung von Erfurt</option>
-                </select>
-                <div class="text-display" id="original-text">
-                    <p class="hint">Wähle Textkörper oben...</p>
+                <h3>🧪 Sammler</h3>
+                <div class="text-display kompost-sammler" id="kompost-sammler" title="Klick → weiter zu Layer 3">
+                    <p class="hint" id="sammler-hint">Sammler leer</p>
+                    <div id="sammler-content"></div>
+                </div>
+                <div class="sammler-status">
+                    <span id="sammler-count">0</span> / 4 gesammelt
                 </div>
             </div>
             
-            <!-- Mitte: Biologische Parameter -->
+            <!-- Mitte: Parameter + Dropdown -->
             <div class="split-middle">
                 <h3>🔬 Bio-Parameter</h3>
                 
-                <!-- Temperatur -->
+                <!-- 📚 TEXTKÖRPER AUSWAHL -->
+                <div class="param-control">
+                    <label>📚 Textkörper</label>
+                    <select id="corpus-select" class="corpus-dropdown">
+                        <option value="full">Alle Teile</option>
+                        <option value="part1">Teil I: Schlaflosigkeitsrevolver</option>
+                        <option value="part2">Teil II: Blumen & Löcher</option>
+                        <option value="part3">Teil III: Die Abschaffung von Erfurt</option>
+                    </select>
+                </div>
+                
+                <!-- 🌡️ TEMPERATUR -->
                 <div class="param-control">
                     <label>
                         🌡️ Temperatur
-                        <span class="param-value" id="temp-value">45°C</span>
+                        <span class="param-value" id="temp-value">50°</span>
                     </label>
-                    <input type="range" id="temperature" min="0" max="100" value="45" step="1">
+                    <input type="range" id="bio-temperature" min="0" max="100" value="50" step="5">
                     <div class="param-hint">
-                        <span class="cold">0-25°C Kalt</span>
-                        <span class="warm">25-45°C Mesophil</span>
-                        <span class="hot">45-70°C Thermophil</span>
-                        <span class="extreme">70-100°C Extrem</span>
+                        <span>Kalt = lange Passagen</span>
+                        <span>Heiß = kurze Fetzen</span>
                     </div>
                 </div>
                 
-                <!-- Feuchtigkeit -->
+                <!-- 💧 FEUCHTIGKEIT -->
                 <div class="param-control">
                     <label>
                         💧 Feuchtigkeit
                         <span class="param-value" id="moisture-value">50%</span>
                     </label>
-                    <input type="range" id="moisture" min="0" max="80" value="50" step="5">
+                    <input type="range" id="bio-moisture" min="0" max="100" value="50" step="5">
                     <div class="param-hint">
-                        <span>0-40% Trocken</span>
-                        <span>40-60% Optimal</span>
-                        <span>60-80% Nass</span>
+                        <span>Trocken = Brüche</span>
+                        <span>Feucht = fließend</span>
                     </div>
                 </div>
                 
-                <!-- pH-Wert -->
+                <!-- 🔀 DURCHMISCHUNG -->
                 <div class="param-control">
                     <label>
-                        🧪 pH-Wert
-                        <span class="param-value" id="ph-value">7.0</span>
+                        🔀 Durchmischung
+                        <span class="param-value" id="mixing-value">50%</span>
                     </label>
-                    <input type="range" id="ph" min="4" max="10" value="7" step="0.5">
+                    <input type="range" id="bio-mixing" min="0" max="100" value="50" step="5">
                     <div class="param-hint">
-                        <span>4-6 Sauer</span>
-                        <span>6-8 Neutral</span>
-                        <span>8-10 Basisch</span>
+                        <span>Geordnet</span>
+                        <span>Chaotisch</span>
                     </div>
                 </div>
                 
-                <!-- Belüftung -->
-                <div class="param-control">
-                    <label>🌬️ Belüftung</label>
-                    <select id="aeration">
-                        <option value="aerob">Aerob (lesbar)</option>
-                        <option value="anaerob">Anaerob (surreal)</option>
-                    </select>
-                </div>
-                
-                <!-- Enzym -->
-                <div class="param-control">
-                    <label>🧬 Enzym-Essenz</label>
-                    <select id="enzyme-select">
-                        <option value="">Alle</option>
-                        <option value="#Dividual">#Dividual</option>
-                        <option value="#Lysis">#Lysis</option>
-                        <option value="#Myzel">#Myzel</option>
-                        <option value="#Noise">#Noise</option>
-                        <option value="#Resonanz">#Resonanz</option>
-                    </select>
-                </div>
-                
-                <!-- Zone -->
-                <div class="param-control">
-                    <label>🌍 Zonen-Tiefe</label>
-                    <select id="zone-select">
-                        <option value="">Alle Zonen</option>
-                        <option value="I">Zone I (Biographisch)</option>
-                        <option value="II">Zone II (Mittel)</option>
-                        <option value="III">Zone III (Maximal zersetzt)</option>
-                    </select>
-                </div>
-                
-                <!-- Text-Länge -->
+                <!-- 📏 TEXTMENGE -->
                 <div class="param-control">
                     <label>
-                        📏 Text-Länge
+                        📏 Textmenge
+                        <span class="param-value" id="length-value">200 Wörter</span>
                     </label>
-                    <input type="range" id="text-length" min="1" max="2000" value="500" step="1">
+                    <input type="range" id="bio-length" min="50" max="1000" value="200" step="50">
                 </div>
                 
-                <!-- C:N-Verhältnis (Fragmentierung) -->
-                <div class="param-control">
-                    <label>
-                        🔄 C:N-Verhältnis
-                        <span class="param-value" id="cn-value">30:1</span>
-                    </label>
-                    <input type="range" id="cn-ratio" min="10" max="50" value="30" step="5">
-                    <div class="param-hint">
-                        <span>10 N-reich (zusammenhängend)</span>
-                        <span>30 Optimal</span>
-                        <span>50 C-reich (fragmentiert)</span>
-                    </div>
-                </div>
-                
-                <button class="btn-generate" id="btn-generate">
-                    🌱 KOMPOSTIEREN
-                </button>
-                
-                <button class="btn-humus" id="btn-to-humus" style="margin-top: 10px;">
-                    →💚 HUMUS SPEICHERN
-                </button>
-                
-                <div class="humus-status" id="humus-status">
-                    Humus: <span id="humus-count">0</span> / 20
+                <!-- BUTTONS -->
+                <div class="button-group">
+                    <button class="btn-generate" id="btn-generate">
+                        🌱 KOMPOSTIEREN
+                    </button>
+                    
+                    <button class="btn-reroll" id="btn-reroll" title="Zufällige Parameter">
+                        🎲
+                    </button>
                 </div>
             </div>
             
-            <!-- Rechts: Generierter Output -->
+            <!-- Rechts: Frischer Output (klickbar → wandert nach links) -->
             <div class="split-right">
-                <h3>🔬 Generiert</h3>
-                <div class="text-display" id="generated-text">
-                    <p class="hint">Klicke GENERIEREN um zu beginnen...</p>
+                <h3>🌱 Frischer Kompost</h3>
+                <div class="text-display output-box" id="generated-text" title="Klick → zum Sammler hinzufügen">
+                    <p class="hint" id="output-hint">Warte auf Kompost...</p>
                 </div>
             </div>
         </div>
@@ -222,10 +178,6 @@
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.05; filter: blur(3px);">
             <div class="glitch-overlay"></div>
         </div>
-        
-        <!-- Navigation -->
-        <button class="btn-nav btn-back" onclick="switchLayer(2)">←</button>
-        <button class="btn-nav btn-forward" onclick="switchLayer(4)">→</button>
         
         <div class="ki-container">
             <!-- INPUT BOX (verschwindet nach Transformation) -->
@@ -278,9 +230,6 @@
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.02; filter: blur(5px);">
         </div>
         
-        <!-- Navigation (nur zurück, kein weiter) -->
-        <button class="btn-nav btn-back" onclick="switchLayer(3)">←</button>
-        
         <div class="humus-fullscreen">
             <!-- Canvas für Humus-Visualisierung (Vollbild) -->
             <canvas id="humus-canvas"></canvas>
@@ -297,7 +246,7 @@
     <script src="js/humus-v2.js"></script>
     <script src="js/layers.js"></script>
     <script src="js/book.js"></script>
-    <script src="js/generator.js"></script>
+    <script src="js/generator-v2.js"></script>
     <script src="js/ki-humus.js"></script>
     <script src="js/swipe.js"></script>
     <script src="js/bandcamp.js"></script>
