@@ -224,26 +224,41 @@
         </div>
     </div>
 
-    <!-- LAYER 4: HUMUS-CHAOS -->
+    <!-- LAYER 4: HUMUS -->
     <div id="layer4" class="layer">
         <div class="compost-background-black">
             <img src="images/kompost_b.jpg" alt="Kompost" style="opacity: 0.02; filter: blur(5px);">
         </div>
         
         <div class="humus-fullscreen">
-            <!-- Canvas für Humus-Visualisierung (Vollbild) -->
-            <canvas id="humus-canvas"></canvas>
+            <!-- Fließtext-Ansicht (Standard) -->
+            <div id="humus-text-view" class="humus-text-view">
+                <div id="humus-text-content" class="humus-text-content">
+                    <p class="hint">Noch kein Humus gesammelt...</p>
+                </div>
+            </div>
             
-            <!-- Export-Button schwebend -->
-            <button class="btn-export-float" id="btn-export-humus">
-                📥 EXPORTIEREN
-            </button>
+            <!-- Canvas für zersetzte Ansicht (versteckt bis aktiviert) -->
+            <canvas id="humus-canvas" style="display: none;"></canvas>
+            
+            <!-- Buttons unten links -->
+            <div class="humus-buttons">
+                <button class="btn-humus-action" id="btn-toggle-view" title="Ansicht wechseln">
+                    🔀 Zersetzen
+                </button>
+                <button class="btn-humus-action" id="btn-export-humus" title="Als Text kopieren">
+                    📋 Kopieren
+                </button>
+                <button class="btn-humus-action" id="btn-share-humus" title="Teilen">
+                    📤 Teilen
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- JavaScript -->
     <script src="js/humus.js"></script>
-    <script src="js/humus-v2.js"></script>
+    <script src="js/humus-v3.js"></script>
     <script src="js/layers.js?v=20260106b"></script>
     <script src="js/book.js"></script>
     <script src="js/generator-v2.js?v=20260106b"></script>
