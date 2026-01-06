@@ -177,8 +177,19 @@ const HumusV3 = {
         this.ctx.fillStyle = `rgb(${bgR}, ${bgG}, ${bgB})`;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
+        // Feuchtigkeit = Blur-Effekt
+        if (this.params.feuchtigkeit > 30) {
+            this.ctx.filter = `blur(${(this.params.feuchtigkeit - 30) / 25}px)`;
+        } else {
+            this.ctx.filter = 'none';
+        }
+        
         // Fragmente zeichnen
         this.fragments.forEach((frag) => {
+            // Verwesung = Alterung
+            const verwesungsFaktor = this.params.verwesung / 100;
+            frag.age += 0.001 * verwesungsFaktor;
+            
             // Bewegung
             const wurmFaktor = this.params.wurmaktivitaet / 100;
             if (wurmFaktor > 0.1) {
@@ -190,24 +201,42 @@ const HumusV3 = {
                 frag.y += frag.vy;
             }
             
+            // Feuchtigkeit = mehr Drift nach unten
+            if (this.params.feuchtigkeit > 50) {
+                frag.vy += 0.01 * (this.params.feuchtigkeit - 50) / 50;
+            }
+            
             // Grenzen
             if (frag.x < 2) frag.vx += 0.1;
             if (frag.x > 98) frag.vx -= 0.1;
             if (frag.y < 2) frag.vy += 0.1;
             if (frag.y > 98) frag.vy -= 0.1;
             
-            // Rotation
-            if (wurmFaktor > 0.3) {
-                frag.rotation += (Math.random() - 0.5) * wurmFaktor * 2;
+            // Rotation - verstärkt durch Verwesung
+            if (wurmFaktor > 0.3 || verwesungsFaktor > 0.5) {
+                frag.rotation += (Math.random() - 0.5) * (wurmFaktor + verwesungsFaktor) * 2;
             }
             
-            // Farbe
+            // Opacity sinkt mit Verwesung
+            frag.opacity = Math.max(0.2, 1 - frag.age * 2);
+            
+            // Farbe - wird brauner mit Verwesung
             let color;
+            const ageEffect = Math.min(frag.age * 3, 1);
             if (frag.source === 'bio') {
-                color = `rgba(80, 140, 60, ${frag.opacity})`;
+                const r = Math.floor(80 + ageEffect * 40);
+                const g = Math.floor(140 - ageEffect * 80);
+                const b = Math.floor(60 - ageEffect * 30);
+                color = `rgba(${r}, ${g}, ${b}, ${frag.opacity})`;
             } else {
-                color = `rgba(80, 100, 160, ${frag.opacity})`;
+                const r = Math.floor(80 + ageEffect * 30);
+                const g = Math.floor(100 - ageEffect * 40);
+                const b = Math.floor(160 - ageEffect * 80);
+                color = `rgba(${r}, ${g}, ${b}, ${frag.opacity})`;
             }
+            
+            // Schriftgröße schrumpft mit Verwesung
+            const size = Math.max(8, frag.size - frag.age * 10);
             
             // Zeichnen
             const x = (frag.x / 100) * this.canvas.width;
@@ -217,7 +246,7 @@ const HumusV3 = {
             this.ctx.translate(x, y);
             this.ctx.rotate(frag.rotation * Math.PI / 180);
             this.ctx.fillStyle = color;
-            this.ctx.font = `${frag.size}px Georgia`;
+            this.ctx.font = `${size}px Georgia`;
             this.ctx.fillText(frag.word, 0, 0);
             this.ctx.restore();
         });
